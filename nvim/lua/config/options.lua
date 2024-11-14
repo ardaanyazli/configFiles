@@ -1,0 +1,29 @@
+vim.g.mapleader = ' '
+vim.g.maplocaleader = ' '
+vim.opt.nu=true
+vim.opt.relativenumber=true
+vim.opt.tabstop=4
+vim.opt.softtabstop=4
+vim.opt.shiftwidth=4
+vim.opt.smartindent= true
+vim.opt.smartcase = true
+vim.opt.wrap = false
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.scrolloff = 20
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+vim.opt.clipboard = "unnamedplus"
+vim.opt.updatetime = 50
+vim.opt.conceallevel = 2
+vim.opt.termguicolors = true
+
+
+local keymap =vim.keymap
+keymap.set("n","<leader>bn","<cmd>bnext<CR>",{desc="Go to next buffer"})
+keymap.set("n","<leader>bp","<cmd>bprevious<CR>",{desc="Go to previous buffer"})
+keymap.set ("n","<C-s>","<cmd>w<CR>",{desc = "Save current buffer to file"})
