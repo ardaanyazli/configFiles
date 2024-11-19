@@ -27,3 +27,7 @@ local keymap =vim.keymap
 keymap.set("n","<leader>bn","<cmd>bnext<CR>",{desc="Go to next buffer"})
 keymap.set("n","<leader>bp","<cmd>bprevious<CR>",{desc="Go to previous buffer"})
 keymap.set ("n","<C-s>","<cmd>w<CR>",{desc = "Save current buffer to file"})
+keymap.set("n", "<C-D-h>", "<C-w>left", {desc = "Move to left split"})
+keymap.set("n", "<C-D-j>", "<C-w>down", {desc = "Move to down split"})
+keymap.set("n", "<C-D-k>", "<C-w>up", {desc = "Move to up split"})
+keymap.set("n", "<C-D-l>", "<C-w>right", {desc = "Move to right split"})
