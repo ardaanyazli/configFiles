@@ -102,19 +102,6 @@ return {
 					},
 				})
 			end,
-			["omnisharp"] = function()
-				-- configure lua server (with special settings)
-				lspconfig["omnisharp"].setup({
-					capabilities = capabilities,
-					cmd = {
-						"mono",
-						"--assembly-loader=strict",
-						"/Users/ardaanyazli/omnisharp-osx/omnisharp/OmniSharp.exe",
-					},
-					-- Assuming you have an on_attach function. Delete this line if you don't.
-					use_mono = true,
-				})
-			end,
 		})
 	end,
 }
