@@ -41,6 +41,11 @@ return {
 
 		mason_tool_installer.setup({
 			ensure_installed = {
+				"lua_ls",
+				"terraformls",
+				"html",
+				"cssls",
+				"roslyn",
 				"stylua", -- lua formatter
 				"prettier", -- prettier formatter
 			},
