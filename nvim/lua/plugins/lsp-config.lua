@@ -66,7 +66,13 @@ return {
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 			end,
 		})
-
+		vim.diagnostic.config({
+			virtual_text = false, -- Disable inline diagnostics
+			signs = true, -- Enable signs in the gutter
+			underline = true, -- Underline text with diagnostics
+			update_in_insert = false, -- Don't show diagnostics in insert mode
+			severity_sort = true, -- Sort diagnostics by severity_sort
+		})
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
