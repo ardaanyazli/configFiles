@@ -27,7 +27,7 @@ return {
 
 				-- set keybinds
 				opts.desc = "Show LSP references"
-				keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+				keymap.set("n", "gR", "<cmd>Telescope lsp_references theme=dropdown preview=false<CR>", opts) -- show definition, references
 
 				opts.desc = "Go to declaration"
 				keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
@@ -48,7 +48,7 @@ return {
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
 				opts.desc = "Show buffer diagnostics"
-				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics theme=ivy bufnr=0<CR>", opts) -- show  diagnostics for file
 
 				opts.desc = "Show line diagnostics"
 				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
@@ -66,12 +66,18 @@ return {
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 			end,
 		})
+
 		vim.diagnostic.config({
 			virtual_text = false, -- Disable inline diagnostics
 			signs = true, -- Enable signs in the gutter
 			underline = true, -- Underline text with diagnostics
 			update_in_insert = false, -- Don't show diagnostics in insert mode
 			severity_sort = true, -- Sort diagnostics by severity_sort
+			float = {
+				border = "rounded", -- Customize the border style (options: "single", "double", "rounded", "solid", "shadow")
+				source = true, -- Show the source of the diagnostic (e.g., LSP)
+				prefix = "", -- Remove any prefix for the floating message
+			},
 		})
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()

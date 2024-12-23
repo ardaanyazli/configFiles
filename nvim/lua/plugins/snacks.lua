@@ -11,7 +11,7 @@ return {
 		notifier = {
 			enabled = true,
 			timeout = 3000,
-			style = "minimal",
+			style = "compact",
 		},
 		quickfile = { enabled = true },
 		scroll = { enabled = true },
