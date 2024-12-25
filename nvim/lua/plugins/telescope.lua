@@ -7,11 +7,13 @@ return {
 		{
 			"nvim-telescope/telescope-fzf-native.nvim",
 			build = function()
-				local osname = vim.loop.os_uname().sysname
-				if osname == "Windows_NT" then
-					return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cp ./build/Release/libfzf.dll ./build/libfzf.dll"
+				local is_windows = vim.loop.os_uname().sysname:lower():find("windows")
+				if is_windows then
+					vim.fn.system(
+						"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cp ./build/Release/libfzf.dll ./build/libfzf.dll"
+					)
 				else
-					return "make"
+					vim.fn.system("make")
 				end
 			end,
 		},
