@@ -10,7 +10,7 @@ return {
 				local is_windows = vim.loop.os_uname().sysname:lower():find("windows")
 				if is_windows then
 					vim.fn.system(
-						"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cp ./build/Release/libfzf.dll ./build/libfzf.dll"
+						"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release ; cmake --build build --config Release ; cp ./build/Release/libfzf.dll ./build/libfzf.dll"
 					)
 				else
 					vim.fn.system("make")

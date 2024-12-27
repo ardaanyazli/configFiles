@@ -14,7 +14,7 @@ return {
 			style = "compact",
 		},
 		quickfile = { enabled = true },
-		scroll = { enabled = true },
+		scroll = { enabled = false },
 		statuscolumn = { enabled = true },
 		words = { enabled = false },
 		styles = {
