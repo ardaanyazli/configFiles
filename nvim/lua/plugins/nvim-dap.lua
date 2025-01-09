@@ -25,8 +25,7 @@ return {
 
 			dap.adapters.coreclr = {
 				type = "executable",
-				command = require("mason-registry").get_package("netcoredbg"):get_install_path()
-					.. "/netcoredbg/netcoredbg",
+				command = require("mason-registry").get_package("netcoredbg"):get_install_path() .. "/netcoredbg",
 				args = { "--interpreter=vscode" },
 			}
 
@@ -46,6 +45,36 @@ return {
 					processId = require("dap.utils").pick_process,
 				},
 			}
+			vim.api.nvim_set_keymap(
+				"n",
+				"<F5>",
+				':lua require("dap").continue()<CR>',
+				{ noremap = true, silent = true }
+			) -- Start/continue debugging
+			vim.api.nvim_set_keymap(
+				"n",
+				"<F9>",
+				':lua require("dap").toggle_breakpoint()<CR>',
+				{ noremap = true, silent = true }
+			) -- Toggle breakpoint
+			vim.api.nvim_set_keymap(
+				"n",
+				"<F10>",
+				':lua require("dap").step_over()<CR>',
+				{ noremap = true, silent = true }
+			) -- Step over
+			vim.api.nvim_set_keymap(
+				"n",
+				"<F11>",
+				':lua require("dap").step_into()<CR>',
+				{ noremap = true, silent = true }
+			) -- Step into
+			vim.api.nvim_set_keymap(
+				"n",
+				"<S-F11>",
+				':lua require("dap").step_out()<CR>',
+				{ noremap = true, silent = true }
+			) -- Step out
 		end,
 	},
 }
