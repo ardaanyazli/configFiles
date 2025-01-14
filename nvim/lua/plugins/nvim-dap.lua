@@ -25,7 +25,8 @@ return {
 
 			dap.adapters.coreclr = {
 				type = "executable",
-				command = require("mason-registry").get_package("netcoredbg"):get_install_path() .. "/netcoredbg",
+				command = require("mason-registry").get_package("netcoredbg"):get_install_path()
+					.. "/netcoredbg/netcoredbg",
 				args = { "--interpreter=vscode" },
 			}
 
@@ -35,7 +36,7 @@ return {
 					name = "Launch - NetCoreDbg",
 					request = "launch",
 					program = function()
-						return vim.fn.input("Path to DLL > ", vim.fn.getcwd() .. "/bin/Debug/net6.0/MyApp.dll", "file")
+						return vim.fn.input("Path to DLL > ", vim.fn.getcwd() .. "/bin/Debug/net8.0/Myapp.dll", "file")
 					end,
 				},
 				{
