@@ -99,6 +99,16 @@ return {
 					capabilities = capabilities,
 				})
 			end,
+			["omnisharp"] = function()
+				lspconfig.omnisharp.setup({
+					capabilities = capabilities,
+					enable_roslyn_analysers = true,
+					enable_import_completion = true,
+					organize_imports_on_format = true,
+					enable_decompilation_support = true,
+					filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
+				})
+			end,
 			["lua_ls"] = function()
 				-- configure lua server (with special settings)
 				lspconfig["lua_ls"].setup({
