@@ -5,7 +5,7 @@ return {
 		-- "hrsh7th/cmp-nvim-lsp",
 		"saghen/blink.cmp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
-		{ "folke/neodev.nvim", opts = {} },
+		{ "folke/neodev.nvim",                   opts = {} },
 	},
 	config = function()
 		-- import lspconfig plugin
@@ -70,7 +70,7 @@ return {
 
 		vim.diagnostic.config({
 			virtual_text = false, -- Disable inline diagnostics
-			signs = true, -- Enable signs in the gutter
+			signs = true,    -- Enable signs in the gutter
 			underline = true, -- Underline text with diagnostics
 			update_in_insert = false, -- Don't show diagnostics in insert mode
 			severity_sort = true, -- Sort diagnostics by severity_sort
@@ -94,13 +94,8 @@ return {
 
 		mason_lspconfig.setup_handlers({
 			-- default handler for installed servers
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
 			["omnisharp"] = function()
-				lspconfig.omnisharp.setup({
+				lspconfig["omnisharp"].setup({
 					capabilities = capabilities,
 					enable_roslyn_analysers = true,
 					enable_import_completion = true,
@@ -124,6 +119,11 @@ return {
 							},
 						},
 					},
+				})
+			end,
+			function(server_name)
+				lspconfig[server_name].setup({
+					capabilities = capabilities,
 				})
 			end,
 		})

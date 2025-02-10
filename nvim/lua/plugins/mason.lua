@@ -12,6 +12,7 @@ return {
 
 		-- enable mason and configure icons
 		mason.setup({
+			max_concurrent_installers=10,
 			ui = {
 				icons = {
 					package_installed = "✓",
@@ -23,6 +24,8 @@ return {
 				"github:mason-org/mason-registry",
 				"github:Crashdummyy/mason-registry",
 			},
+			ensure_installed = { "stylua", "prettierd" },
+			automatic_installation = true,
 		})
 
 		mason_lspconfig.setup({
@@ -33,8 +36,6 @@ return {
 				"html",
 				"cssls",
 				"omnisharp",
-				"stylua", -- lua formatter
-				"prettier", -- prettier formatter
 			},
 			automatic_installation = true,
 		})
