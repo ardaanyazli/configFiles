@@ -166,7 +166,7 @@ return {
 					console = "integratedTerminal",
 					stopAtEntry = false,
 					launchSettingsProfile = function()
-						return vim.fn.input("launchProfile")
+						return vim.fn.input("launchProfile: ", "file")
 					end,
 				},
 				{
