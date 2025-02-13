@@ -145,20 +145,6 @@ return {
 			dap.configurations.cs = {
 				{
 					type = "coreclr",
-					name = "Launch-NetCoreDbg",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to DLL: ", vim.fn.getcwd() .. "/bin/Debug/net8.0/", "file")
-					end,
-
-					cwd = function()
-						return vim.fn.getcwd()
-					end,
-					console = "integratedTerminal",
-					stopAtEntry = false,
-				},
-				{
-					type = "coreclr",
 					name = "Launch -NEtCoreDbg -EnvVars",
 					request = "launch",
 					program = function()
@@ -169,16 +155,19 @@ return {
 							return vim.fn.input("Path to DLL: ", vim.fn.getcwd() .. "/bin/Debug/net8.0/", "file")
 						end
 					end,
-					env = function()
-						local env_vars = get_env_from_launchsettings(vim.fn.input("Enter profile for launchsettings:"))
-						return env_vars
-					end,
+					-- env = function()
+					-- 	local env_vars = get_env_from_launchsettings(vim.fn.input("Enter profile for launchsettings:"))
+					-- 	return env_vars
+					-- end,
 					cwd = function()
 						local root = find_project_root()
 						return root or vim.fn.getcwd()
 					end,
 					console = "integratedTerminal",
 					stopAtEntry = false,
+					launchSettingsProfile = function()
+						return vim.fn.input("launchProfile")
+					end,
 				},
 				{
 					type = "coreclr",
