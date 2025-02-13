@@ -102,6 +102,11 @@ return {
 					organize_imports_on_format = true,
 					enable_decompilation_support = true,
 					filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
+					cmd = {
+						"omnisharp",
+						"--languageserver",
+						"--hostPID",
+						tostring(vim.fn.getpid()) }
 				})
 			end,
 			["lua_ls"] = function()
