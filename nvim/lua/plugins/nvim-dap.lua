@@ -106,8 +106,11 @@ return {
 					return nil
 				end
 			end
+
 			local function get_env_from_launchsettings(profile)
-				local launchsettings_path = find_project_root() or vim.fn.getcwd() .. "/Properties/launchSettings.json"
+				local root = find_project_root() or vim.fn.getcwd()
+				local launchsettings_path = root .. "/Properties/launchSettings.json"
+				vim.notify("ls path :" .. launchsettings_path)
 				local env_vars = {}
 
 				-- Check if the file exists
@@ -121,7 +124,7 @@ return {
 				if file then
 					local content = file:read("*a")
 					file:close()
-
+					content = content:gsub("^\xef\xbb\xbf", ""):gsub("\r\n", "\n"):gsub("^%s*", "") --bom manipulations for the launchSettings.json
 					-- Decode JSON
 					local success, json = pcall(vim.fn.json_decode, content)
 					if
@@ -132,18 +135,31 @@ return {
 					then
 						env_vars = json.profiles[profile].environmentVariables
 					else
-						print("Profile '" .. profile .. "' not found in launchSettings.json")
+						vim.notify("Profile '" .. profile .. "' not found in launchSettings.json", vim.log.levels.ERROR)
 					end
 				end
 
-				print(env_vars)
-
 				return env_vars
 			end
+
 			dap.configurations.cs = {
 				{
 					type = "coreclr",
-					name = "Launch - NetCoreDbg",
+					name = "Launch-NetCoreDbg",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to DLL: ", vim.fn.getcwd() .. "/bin/Debug/net8.0/", "file")
+					end,
+
+					cwd = function()
+						return vim.fn.getcwd()
+					end,
+					console = "integratedTerminal",
+					stopAtEntry = false,
+				},
+				{
+					type = "coreclr",
+					name = "Launch -NEtCoreDbg -EnvVars",
 					request = "launch",
 					program = function()
 						local dll = get_bin_debug_path()
@@ -153,16 +169,15 @@ return {
 							return vim.fn.input("Path to DLL: ", vim.fn.getcwd() .. "/bin/Debug/net8.0/", "file")
 						end
 					end,
-					env = get_env_from_launchsettings(vim.fn.input("Enter profile for launchsettings:")),
+					env = function()
+						local env_vars = get_env_from_launchsettings(vim.fn.input("Enter profile for launchsettings:"))
+						return env_vars
+					end,
 					cwd = function()
 						local root = find_project_root()
 						return root or vim.fn.getcwd()
 					end,
-					args = {},
-					-- 	function()
-					-- 	return { "launchSettingsProfile:", vim.fn.input("Enter profile: ") }
-					-- end,
-					-- console = "integratedTerminal",
+					console = "integratedTerminal",
 					stopAtEntry = false,
 				},
 				{
