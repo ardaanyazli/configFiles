@@ -11,43 +11,39 @@ return {
 		},
 		keys = {
 			{
-				-- "n",
 				"<F5>",
-				-- '<cmd>lua require("dap").continue()<CR>',
-				-- { noremap = true, silent = true },
 				function()
 					require("dap").continue()
 				end,
 			}, -- Start/continue debugging
 			{
-				"n",
 				"<F9>",
-				'<cmd>lua require("dap").toggle_breakpoint()<CR>',
-				{ noremap = true, silent = true },
+				function()
+					require("dap").toggle_breakpoint()
+				end,
 			}, -- Toggle breakpoint
 			{
-				"n",
 				"<F10>",
-				'<cmd>lua require("dap").step_over()<CR>',
-				{ noremap = true, silent = true },
+				function()
+					require("dap").step_over()
+				end,
 			}, -- Step over
 			{
-				"n",
-				"<F11>",
-				'<cmd>lua require("dap").step_into()<CR>',
-				{ noremap = true, silent = true },
+				function()
+					require("dap").step_into()
+				end,
 			}, -- Step into
 			{
-				"n",
 				"<S-F11>",
-				'<cmd>lua require("dap").step_out()<CR>',
-				{ noremap = true, silent = true },
+				function()
+					require("dap").step_out()
+				end,
 			}, -- Step out
 			{
-				"n",
 				"<S-F5>",
-				'<cmd>lua require("dap").terminate()<CR>',
-				{ noremap = true, silent = true },
+				function()
+					require("dap").terminate()
+				end,
 			},
 		},
 		config = function()
