@@ -45,9 +45,8 @@ return {
 		},
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
-		sources = {
-			default = { "lsp", "snippets", "buffer", "path" },
-			cmdline = function()
+		cmdline = {
+			sources = function()
 				local type = vim.fn.getcmdtype()
 				local r = {}
 				if type == "/" or type == "?" then
@@ -58,6 +57,9 @@ return {
 				return r
 			end,
 		},
+		sources = {
+			default = { "lsp", "snippets", "buffer", "path" },
+		},
 		completion = {
 			menu = {
 				border = "rounded",
@@ -66,6 +68,5 @@ return {
 		},
 		signature = { enabled = true, window = { border = "rounded" } },
 	},
-
 	-- opts_extend = { "sources.default", "sources.cmdline" },
 }
