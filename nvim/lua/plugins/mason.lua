@@ -12,7 +12,7 @@ return {
 
 		-- enable mason and configure icons
 		mason.setup({
-			max_concurrent_installers=10,
+			max_concurrent_installers = 10,
 			ui = {
 				icons = {
 					package_installed = "✓",
@@ -22,7 +22,7 @@ return {
 			},
 			registries = {
 				"github:mason-org/mason-registry",
-				"github:Crashdummyy/mason-registry",
+				-- "github:Crashdummyy/mason-registry",
 			},
 			ensure_installed = { "stylua", "prettierd" },
 			automatic_installation = true,
