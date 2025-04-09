@@ -38,6 +38,7 @@ return {
 				"vimdoc",
 				"c",
 				"c_sharp",
+				"regex"
 			},
 			incremental_selection = {
 				enable = true,

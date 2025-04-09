@@ -22,6 +22,7 @@ vim.opt.updatetime = 50
 vim.opt.conceallevel = 2
 vim.opt.termguicolors = true
 vim.opt.shell = vim.loop.os_uname().sysname:lower():find("windows") and "pwsh.exe" or os.getenv("SHELL")
+
 local keymap = vim.keymap
 keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Go to next buffer" })
 keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Go to previous buffer" })
