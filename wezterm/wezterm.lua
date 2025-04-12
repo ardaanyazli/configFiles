@@ -13,6 +13,8 @@ config.window_padding = {
 	left = 5,
 	right = 5,
 }
+config.max_fps = 240
+config.animation_fps = 60
 
 -- Set PowerShell Core as the default shell on Windows
 if wezterm.target_triple:find("windows") then
@@ -24,9 +26,10 @@ config.enable_scroll_bar = false
 -- Improve resize behavior
 config.adjust_window_size_when_changing_font_size = false
 config.use_resize_increments = false
-if wezterm.target_triple:find("macos") then
-	config.front_end = "OpenGL" -- or "Software" if your GPU has issues
-end
+config.front_end = "WebGpu"
+-- if wezterm.target_triple:find("macos") then
+-- 	config.front_end = "OpenGL" -- or "Software" if your GPU has issues
+-- end
 
 -- You can also try:
 -- enable_wayland = false,  -- if you're on Linux and using Wayland
