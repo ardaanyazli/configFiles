@@ -5,7 +5,8 @@ return {
 		-- "hrsh7th/cmp-nvim-lsp",
 		"saghen/blink.cmp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
-		{ "folke/neodev.nvim",                   opts = {} },
+		{ "folke/neodev.nvim", opts = {} },
+		"nvim-lua/plenary.nvim",
 	},
 	config = function()
 		-- import lspconfig plugin
@@ -27,20 +28,6 @@ return {
 				local opts = { buffer = ev.buf, silent = true }
 
 				-- set keybinds
-				opts.desc = "Show LSP references"
-				keymap.set("n", "gR", "<cmd>Telescope lsp_references theme=dropdown preview=false<CR>", opts) -- show definition, references
-
-				opts.desc = "Go to declaration"
-				keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-				opts.desc = "Show LSP definitions"
-				keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
-				opts.desc = "Show LSP implementations"
-				keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-				opts.desc = "Show LSP type definitions"
-				keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
 				opts.desc = "See available code actions"
 				keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
@@ -48,17 +35,17 @@ return {
 				opts.desc = "Smart rename"
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
-				opts.desc = "Show buffer diagnostics"
-				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics theme=ivy bufnr=0<CR>", opts) -- show  diagnostics for file
+				-- opts.desc = "Show buffer diagnostics"
+				-- keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics theme=ivy bufnr=0<CR>", opts) -- show  diagnostics for file
 
-				opts.desc = "Show line diagnostics"
-				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+				-- opts.desc = "Show line diagnostics"
+				-- keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
-				opts.desc = "Go to previous diagnostic"
-				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-				opts.desc = "Go to next diagnostic"
-				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+				-- opts.desc = "Go to previous diagnostic"
+				-- keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+				--
+				-- opts.desc = "Go to next diagnostic"
+				-- keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
 				opts.desc = "Show documentation for what is under cursor"
 				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
@@ -70,7 +57,7 @@ return {
 
 		vim.diagnostic.config({
 			virtual_text = false, -- Disable inline diagnostics
-			signs = true,    -- Enable signs in the gutter
+			signs = true, -- Enable signs in the gutter
 			underline = true, -- Underline text with diagnostics
 			update_in_insert = false, -- Don't show diagnostics in insert mode
 			severity_sort = true, -- Sort diagnostics by severity_sort
@@ -106,7 +93,8 @@ return {
 						"omnisharp",
 						"--languageserver",
 						"--hostPID",
-						tostring(vim.fn.getpid()) }
+						tostring(vim.fn.getpid()),
+					},
 				})
 			end,
 			["lua_ls"] = function()
