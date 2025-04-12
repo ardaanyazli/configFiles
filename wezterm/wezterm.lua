@@ -18,5 +18,16 @@ config.window_padding = {
 if wezterm.target_triple:find("windows") then
 	config.default_prog = { "pwsh.exe" }
 end
+config.window_background_opacity = 1.0
+config.enable_scroll_bar = false
 
+-- Improve resize behavior
+config.adjust_window_size_when_changing_font_size = false
+config.use_resize_increments = false
+if wezterm.target_triple:find("macos") then
+	config.front_end = "OpenGL" -- or "Software" if your GPU has issues
+end
+
+-- You can also try:
+-- enable_wayland = false,  -- if you're on Linux and using Wayland
 return config
