@@ -1,5 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocaleader = " "
+vim.g.snacks_animate = false
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
@@ -20,6 +21,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 50
 vim.opt.conceallevel = 2
+vim.opt.statusline = "no"
 vim.opt.termguicolors = true
 vim.opt.shell = vim.loop.os_uname().sysname:lower():find("windows") and "pwsh.exe" or os.getenv("SHELL")
 

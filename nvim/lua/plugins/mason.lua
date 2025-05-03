@@ -24,7 +24,7 @@ return {
 				"github:mason-org/mason-registry",
 				-- "github:Crashdummyy/mason-registry",
 			},
-			ensure_installed = { "stylua", "prettierd" },
+			ensure_installed = { "stylua", "prettier" },
 			automatic_installation = true,
 		})
 

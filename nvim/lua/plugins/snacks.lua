@@ -4,28 +4,50 @@ return {
 	lazy = false,
 	---@type snacks.Config
 	opts = {
-		picker = { enabled = true },
-		bigfile = { enabled = true },
-		dashboard = { enabled = false },
-		indent = { enabled = true },
-		input = { enabled = true },
+		picker = {},
+		bigfile = {},
+		indent = {},
+		image = {},
+		input = {},
+		lazygit = {},
 		command_palette = { enabled = true, backend = "popup" },
 		notifier = {
 			enabled = true,
 			timeout = 3000,
 			style = "compact",
 		},
-		quickfile = { enabled = true },
-		scroll = { enabled = false },
-		statuscolumn = { enabled = true },
-		words = { enabled = false },
+		quickfile = {},
+		scroll = {},
+		statusColumn = {},
 		styles = {
 			notification = {
-				wo = { wrap = true }, -- Wrap notifications
+				relative = nil,
+				border = "rounded",
+				zindex = 100,
+				ft = "markdown",
+				wo = {
+					winblend = 5,
+					wrap = false,
+					conceallevel = 2,
+					colorcolumn = "",
+				},
+				bo = { filetype = "snacks_notif" },
+			},
+			notification_history = {
+				relative = nil,
+				border = "rounded",
+				zindex = 100,
+				width = 0.6,
+				height = 0.6,
+				minimal = true,
+				title = "Notification History",
+				title_pos = "center",
+				ft = "markdown",
+				bo = { filetype = "snacks_notif_history", modifiable = false },
+				wo = { winhighlight = "Normal:SnacksNotifierHistory", wrap = true },
+				keys = { q = "close" },
 			},
 		},
-		zen = { enabled = false },
-		lazygit = {},
 	},
 	keys = {
 		{
@@ -218,13 +240,6 @@ return {
 				Snacks.terminal()
 			end,
 			desc = "Toggle Terminal",
-		},
-		{
-			"<c-_>",
-			function()
-				Snacks.terminal()
-			end,
-			desc = "which_key_ignore",
 		},
 		{
 			"]]",
