@@ -48,41 +48,13 @@ return {
 		},
 	},
 	keys = {
-		-- {
-		-- 	"<leader>ee",
-		-- 	function()
-		-- 		Snacks.explorer()
-		-- 	end,
-		-- 	desc = "Smart Find Files",
-		-- },
-		-- {
-		-- 	"<leader>ff",
-		-- 	function()
-		-- 		Snacks.picker.smart()
-		-- 	end,
-		-- 	desc = "Smart Find Files",
-		-- },
-		-- {
-		-- 	"<leader>fb",
-		-- 	function()
-		-- 		Snacks.picker.buffers()
-		-- 	end,
-		-- 	desc = "Buffers",
-		-- },
-		-- {
-		-- 	"<leader>fg",
-		-- 	function()
-		-- 		Snacks.picker.grep()
-		-- 	end,
-		-- 	desc = "Live Grep",
-		-- },
-		-- {
-		-- 	"<leader>:",
-		-- 	function()
-		-- 		Snacks.picker.command_history()
-		-- 	end,
-		-- 	desc = "Command History",
-		-- },
+		{
+			"<leader>:",
+			function()
+				Snacks.picker.command_history()
+			end,
+			desc = "Command History",
+		},
 		{
 			"<leader>n",
 			function()
@@ -90,56 +62,6 @@ return {
 			end,
 			desc = "Notification History",
 		},
-		-- {
-		-- 	"gd",
-		-- 	function()
-		-- 		Snacks.picker.lsp_definitions()
-		-- 	end,
-		-- 	desc = "Goto Definition",
-		-- },
-		-- {
-		-- 	"gD",
-		-- 	function()
-		-- 		Snacks.picker.lsp_declarations()
-		-- 	end,
-		-- 	desc = "Goto Declaration",
-		-- },
-		-- {
-		-- 	"gR",
-		-- 	function()
-		-- 		Snacks.picker.lsp_references()
-		-- 	end,
-		-- 	nowait = true,
-		-- 	desc = "References",
-		-- },
-		-- {
-		-- 	"gi",
-		-- 	function()
-		-- 		Snacks.picker.lsp_implementations()
-		-- 	end,
-		-- 	desc = "Goto Implementation",
-		-- },
-		-- {
-		-- 	"gt",
-		-- 	function()
-		-- 		Snacks.picker.lsp_type_definitions()
-		-- 	end,
-		-- 	desc = "Goto T[y]pe Definition",
-		-- },
-		-- {
-		-- 	"<leader>d",
-		-- 	function()
-		-- 		Snacks.picker.diagnostics_buffer()
-		-- 	end,
-		-- 	desc = "Todo",
-		-- },
-		-- {
-		-- 	"<leader>D",
-		-- 	function()
-		-- 		Snacks.picker.diagnostics()
-		-- 	end,
-		-- 	desc = "Todo",
-		-- },
 		{
 			"<leader>st",
 			function()

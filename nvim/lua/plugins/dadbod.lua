@@ -14,6 +14,9 @@ return {
 			"tpope/vim-dadbod",
 		},
 		cmd = { "DBUI", "DBUIToggle", "DBUIAddConnection" },
+		keys = {
+			{ "<leader>uB", "<cmd>DBUIToggle<CR>", mode = "n", desc = "Toggle Dadbod UI" },
+		},
 	},
 	{
 		"kristijanhusak/vim-dadbod-completion",
