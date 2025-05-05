@@ -17,7 +17,7 @@ return {
 	},
 	{
 		"kristijanhusak/vim-dadbod-completion",
-		ft = { "sql", "mysql", "plsql" },
+		ft = { "sql", "mysql", "plsql", "psql" },
 		dependencies = { "tpope/vim-dadbod" },
 		config = function()
 			vim.cmd([[
