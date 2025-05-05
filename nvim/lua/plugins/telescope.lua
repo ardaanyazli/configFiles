@@ -25,6 +25,12 @@ return {
 					"build",
 					"--config",
 					"Release",
+					"&&",
+					"cmake",
+					"--install",
+					"build",
+					"--prefix",
+					"build"
 				})
 			else
 				ok = vim.fn.system("make")
