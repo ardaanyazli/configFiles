@@ -57,7 +57,6 @@ return {
 
 		vim.diagnostic.config({
 			virtual_text = false, -- Disable inline diagnostics
-			signs = true, -- Enable signs in the gutter
 			underline = true, -- Underline text with diagnostics
 			update_in_insert = false, -- Don't show diagnostics in insert mode
 			severity_sort = true, -- Sort diagnostics by severity_sort
@@ -66,18 +65,18 @@ return {
 				source = true, -- Show the source of the diagnostic (e.g., LSP)
 				prefix = "", -- Remove any prefix for the floating message
 			},
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.HINT] = "󰠠 ",
+					[vim.diagnostic.severity.INFO] = " ",
+				},
+			},
 		})
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.get_lsp_capabilities()
 		-- local capabilities = cmp_nvim_lsp.default_capabilities()
-
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- (not in youtube nvim video)
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
 
 		mason_lspconfig.setup_handlers({
 			-- default handler for installed servers
