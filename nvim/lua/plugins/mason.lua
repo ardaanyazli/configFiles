@@ -1,3 +1,19 @@
+-- Mason integration for automatic server management
+vim.api.nvim_create_user_command("MasonInstallAll", function()
+	vim.cmd("MasonInstall " .. table.concat({
+		"gopls",
+		"pyright",
+		"rust-analyzer",
+		"typescript-language-server",
+		"vscode-html-language-server",
+		"vscode-css-language-server",
+		"marksman",
+		"terraform-ls",
+		"omnisharp",
+	}, " "))
+	print("LSP configuration loaded for Neovim 0.11.3")
+end, {})
+
 return {
 	"williamboman/mason.nvim",
 	dependencies = {
@@ -22,20 +38,39 @@ return {
 			},
 			registries = {
 				"github:mason-org/mason-registry",
-				-- "github:Crashdummyy/mason-registry",
 			},
-			ensure_installed = { "stylua", "prettier" },
+			ensure_installed = {
+				"gopls", -- Go
+				"pyright", -- Python
+				"rust_analyzer", -- Rust
+				"ts_ls", -- TypeScript/JavaScript
+				"html", -- HTML
+				"cssls", -- CSS
+				"marksman", -- Markdown
+				"terraformls", -- Terraform
+				"omnisharp",
+				"stylua",
+				"prettierd",
+				"eslint_d",
+				"terraform",
+				"htmlhint",
+				"markdownlint",
+			},
 			automatic_installation = true,
 		})
 
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = {
-				"lua_ls",
-				"terraformls",
-				"html",
-				"cssls",
-				"omnisharp",
+				"gopls", -- Go
+				"pyright", -- Python
+				"rust_analyzer", -- Rust
+				"ts_ls", -- TypeScript/JavaScript
+				"html", -- HTML
+				"cssls", -- CSS
+				"marksman", -- Markdown
+				"terraformls", -- Terraform
+				"omnisharp", -- C#
 			},
 			automatic_installation = true,
 		})

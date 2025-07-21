@@ -1,27 +1,22 @@
 return {
-    'Mofiqul/vscode.nvim',
-    config = function()
-        local c = require('vscode.colors').get_colors()
-		vim.opt.background='dark'
-        require('vscode').setup({
-            transparent = true,            -- Enable transparent background
-            italic_comments = true,        -- Enable italic comments
-            underline_links = true,        -- Underline `@markup.link.*` variants
-            disable_nvimtree_bg = true,    -- Disable nvim-tree background color
-
-            -- Override colors
-            color_overrides = {
-                vscLineNumber = '#FFFFFF',
-            },
-
-            -- Override highlight groups
-            group_overrides = {
-                Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-            }
-        })
-
-        -- Load the theme without affecting devicon colors.
-        vim.cmd.colorscheme "vscode"
-    end,
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("tokyonight").setup({
+				style = "night",
+				transparent = false,
+				terminal_colors = true,
+				styles = {
+					comments = { italic = true },
+					functions = {},
+					variables = {},
+					sidebars = "dark",
+					floats = "dark",
+				},
+			})
+			vim.cmd("colorscheme tokyonight")
+		end,
+	},
 }
-
