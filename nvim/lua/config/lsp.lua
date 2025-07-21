@@ -322,27 +322,25 @@ end
 
 -- Configure diagnostics display
 vim.diagnostic.config({
-	virtual_text = {
-		prefix = "●",
-		source = "if_many",
+	virtual_text = false,
+	signs = {
+		[vim.diagnostic.severity.ERROR] = "󰅙", -- nf-md-close_circle
+		[vim.diagnostic.severity.WARN] = "", -- nf-md-alert_circle
+		[vim.diagnostic.severity.INFO] = "󰋼", -- nf-md-information
+		[vim.diagnostic.severity.HINT] = "", -- nf-md-lightbulb_on_outline
 	},
-	float = {
-		source = "if_many",
-		border = "rounded",
-	},
-	signs = true,
 	underline = true,
 	update_in_insert = false,
 	severity_sort = true,
+	float = {
+		border = "rounded", -- or "single", "double", "shadow", "solid", etc.
+		source = "always", -- always show the source in the popup
+		header = "",
+		prefix = "",
+	},
 })
 
 -- Customize diagnostic signs
-local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
-
 -- Setup function
 function M.setup()
 	-- Create LspAttach autocommand
