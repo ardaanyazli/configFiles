@@ -9,7 +9,7 @@ vim.api.nvim_create_user_command("MasonInstallAll", function()
 		"vscode-css-language-server",
 		"marksman",
 		"terraform-ls",
-		"roslyn", -- Changed from omnisharp
+		"omnisharp",
 	}, " "))
 	print("LSP configuration loaded for Neovim 0.11.3")
 end, {})
@@ -48,7 +48,7 @@ return {
 				"cssls", -- CSS
 				"marksman", -- Markdown
 				"terraformls", -- Terraform
-				"roslyn", -- C# (changed from omnisharp)
+				"omnisharp",
 				"stylua",
 				"prettierd",
 				"eslint_d",
@@ -70,7 +70,7 @@ return {
 				"cssls", -- CSS
 				"marksman", -- Markdown
 				"terraformls", -- Terraform
-				"roslyn", -- C# (changed from omnisharp)
+				"omnisharp", -- C#
 			},
 			automatic_installation = true,
 		})
