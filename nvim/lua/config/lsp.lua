@@ -18,30 +18,20 @@ for _, server in ipairs(servers) do
 end
 -- LSP Attach function for keybindings
 local function on_attach(ev)
-	local opts = { buffer = ev.buf, silent = true }
+	local bufnr = ev.buf
+	local client = vim.lsp.get_client_by_id(ev.data.client_id)
+	local opts = { buffer = bufnr, silent = true }
 	local fzflua = require("fzf-lua")
 
 	-- fzf-lua LSP bindings
-	vim.keymap.set("n", "gd", function()
-		fzflua.lsp_definitions()
-	end, opts)
-	vim.keymap.set("n", "gr", function()
-		fzflua.lsp_references()
-	end, opts)
-	vim.keymap.set("n", "gI", function()
-		fzflua.lsp_implementations()
-	end, opts)
-	vim.keymap.set("n", "<leader>D", function()
-		fzflua.lsp_typedefs()
-	end, opts)
-	vim.keymap.set("n", "<leader>ds", function()
-		fzflua.lsp_document_symbols()
-	end, opts)
-	vim.keymap.set("n", "<leader>ws", function()
-		fzflua.lsp_workspace_symbols()
-	end, opts)
+	vim.keymap.set("n", "gd", fzflua.lsp_definitions, opts)
+	vim.keymap.set("n", "gr", fzflua.lsp_references, opts)
+	vim.keymap.set("n", "gI", fzflua.lsp_implementations, opts)
+	vim.keymap.set("n", "<leader>D", fzflua.lsp_typedefs, opts)
+	vim.keymap.set("n", "<leader>ds", fzflua.lsp_document_symbols, opts)
+	vim.keymap.set("n", "<leader>ws", fzflua.lsp_workspace_symbols, opts)
 
-	-- Built-in LSP functions (unchanged)
+	-- Built-in LSP functions
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
@@ -53,10 +43,10 @@ local function on_attach(ev)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 	vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 
-	-- Format with conform.nvim if available, fallback to LSP
+	-- Format (prefer conform.nvim)
 	vim.keymap.set("n", "<leader>f", function()
-		local conform_ok, conform = pcall(require, "conform")
-		if conform_ok then
+		local ok, conform = pcall(require, "conform")
+		if ok then
 			conform.format({ async = true, lsp_fallback = true })
 		else
 			vim.lsp.buf.format({ async = true })
@@ -69,15 +59,26 @@ local function on_attach(ev)
 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 
-	-- Inlay hints toggle (if supported)
+	-- Inlay hints toggle
 	if vim.lsp.buf.inlay_hint then
 		vim.keymap.set("n", "<leader>th", function()
-			vim.lsp.buf.inlay_hint(0, nil)
+			vim.lsp.buf.inlay_hint(bufnr, nil)
 		end, opts)
 	end
 
 	-- Set omnifunc for completion
-	vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+	vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+	-- CodeLens auto-refresh
+	if client and client.server_capabilities.codeLensProvider then
+		local group = vim.api.nvim_create_augroup("LspCodeLensRefresh_" .. bufnr, { clear = true })
+		vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+			group = group,
+			buffer = bufnr,
+			callback = vim.lsp.codelens.refresh,
+		})
+		vim.lsp.codelens.refresh()
+	end
 end
 -- LSP Attach function for keybindings
 -- local function on_attach(ev)
