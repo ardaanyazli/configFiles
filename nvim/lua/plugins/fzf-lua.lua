@@ -1,49 +1,215 @@
 return {
 	"ibhagwan/fzf-lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	config = function()
-		local fzf = require("fzf-lua")
-		fzf.setup({
-			winopts = {
-				border = "rounded",
-				preview = {
-					default = "bat",
-				},
+	opts = {
+		winopts = {
+			border = "rounded",
+			preview = {
+				default = "builtin",
 			},
-		})
-
+		},
+	},
+	keys = {
 		-- File operations
-		vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
-		vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Live Grep" })
-		vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Buffers" })
-		vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "Help Tags" })
-		vim.keymap.set("n", "<leader>fr", fzf.oldfiles, { desc = "Recent Files" })
-		vim.keymap.set("n", "<leader>fc", fzf.commands, { desc = "Commands" })
-		vim.keymap.set("n", "<leader>fk", fzf.keymaps, { desc = "Keymaps" })
-		vim.keymap.set("n", "<leader>fs", fzf.blines, { desc = "Search in Buffer" })
-		vim.keymap.set("n", "<leader>fw", fzf.grep_cword, { desc = "Find Word Under Cursor" })
-		vim.keymap.set("n", "<leader>fd", fzf.diagnostics_document, { desc = "Diagnostics" })
-		vim.keymap.set("n", "<leader>fq", fzf.quickfix, { desc = "Quickfix List" })
-		vim.keymap.set("n", "<leader>fl", fzf.loclist, { desc = "Location List" })
-		vim.keymap.set("n", "<leader>fj", fzf.jumps, { desc = "Jump List" })
-		vim.keymap.set("n", "<leader>fm", fzf.marks, { desc = "Marks" })
-		vim.keymap.set("n", "<leader>ft", fzf.treesitter, { desc = "Treesitter Symbols" })
-		vim.keymap.set("n", "<leader>fp", fzf.resume, { desc = "Resume Previous Search" })
+		{
+			"<leader>ff",
+			function()
+				require("fzf-lua").files()
+			end,
+			desc = "Find Files",
+		},
+		{
+			"<leader>fg",
+			function()
+				require("fzf-lua").live_grep()
+			end,
+			desc = "Live Grep",
+		},
+		{
+			"<leader>fb",
+			function()
+				require("fzf-lua").buffers()
+			end,
+			desc = "Buffers",
+		},
+		{
+			"<leader>fh",
+			function()
+				require("fzf-lua").help_tags()
+			end,
+			desc = "Help Tags",
+		},
+		{
+			"<leader>fr",
+			function()
+				require("fzf-lua").oldfiles()
+			end,
+			desc = "Recent Files",
+		},
+		{
+			"<leader>fc",
+			function()
+				require("fzf-lua").commands()
+			end,
+			desc = "Commands",
+		},
+		{
+			"<leader>fk",
+			function()
+				require("fzf-lua").keymaps()
+			end,
+			desc = "Keymaps",
+		},
+		{
+			"<leader>fs",
+			function()
+				require("fzf-lua").blines()
+			end,
+			desc = "Search in Buffer",
+		},
+		{
+			"<leader>fw",
+			function()
+				require("fzf-lua").grep_cword()
+			end,
+			desc = "Find Word Under Cursor",
+		},
+		{
+			"<leader>fd",
+			function()
+				require("fzf-lua").diagnostics_document()
+			end,
+			desc = "Diagnostics",
+		},
+		{
+			"<leader>fq",
+			function()
+				require("fzf-lua").quickfix()
+			end,
+			desc = "Quickfix List",
+		},
+		{
+			"<leader>fl",
+			function()
+				require("fzf-lua").loclist()
+			end,
+			desc = "Location List",
+		},
+		{
+			"<leader>fj",
+			function()
+				require("fzf-lua").jumps()
+			end,
+			desc = "Jump List",
+		},
+		{
+			"<leader>fm",
+			function()
+				require("fzf-lua").marks()
+			end,
+			desc = "Marks",
+		},
+		{
+			"<leader>ft",
+			function()
+				require("fzf-lua").treesitter()
+			end,
+			desc = "Treesitter Symbols",
+		},
+		{
+			"<leader>fp",
+			function()
+				require("fzf-lua").resume()
+			end,
+			desc = "Resume Previous Search",
+		},
 
 		-- Git related
-		vim.keymap.set("n", "<leader>gc", fzf.git_commits, { desc = "Git Commits" })
-		vim.keymap.set("n", "<leader>gb", fzf.git_branches, { desc = "Git Branches" })
-		vim.keymap.set("n", "<leader>gs", fzf.git_status, { desc = "Git Status" })
-		vim.keymap.set("n", "<leader>gf", fzf.git_files, { desc = "Git Files" })
+		{
+			"<leader>gc",
+			function()
+				require("fzf-lua").git_commits()
+			end,
+			desc = "Git Commits",
+		},
+		{
+			"<leader>gb",
+			function()
+				require("fzf-lua").git_branches()
+			end,
+			desc = "Git Branches",
+		},
+		{
+			"<leader>gs",
+			function()
+				require("fzf-lua").git_status()
+			end,
+			desc = "Git Status",
+		},
+		{
+			"<leader>gf",
+			function()
+				require("fzf-lua").git_files()
+			end,
+			desc = "Git Files",
+		},
 
 		-- LSP related
-		vim.keymap.set("n", "<leader>lr", fzf.lsp_references, { desc = "LSP References" })
-		vim.keymap.set("n", "<leader>ld", fzf.lsp_definitions, { desc = "LSP Definitions" })
-		vim.keymap.set("n", "<leader>li", fzf.lsp_implementations, { desc = "LSP Implementations" })
-		vim.keymap.set("n", "<leader>lt", fzf.lsp_typedefs, { desc = "LSP Type Definitions" })
-		vim.keymap.set("n", "<leader>ls", fzf.lsp_document_symbols, { desc = "Document Symbols" })
-		vim.keymap.set("n", "<leader>lw", fzf.lsp_workspace_symbols, { desc = "Workspace Symbols" })
-		vim.keymap.set("n", "<leader>lc", fzf.lsp_incoming_calls, { desc = "Incoming Calls" })
-		vim.keymap.set("n", "<leader>lo", fzf.lsp_outgoing_calls, { desc = "Outgoing Calls" })
-	end,
+		{
+			"<leader>lr",
+			function()
+				require("fzf-lua").lsp_references()
+			end,
+			desc = "LSP References",
+		},
+		{
+			"<leader>ld",
+			function()
+				require("fzf-lua").lsp_definitions()
+			end,
+			desc = "LSP Definitions",
+		},
+		{
+			"<leader>li",
+			function()
+				require("fzf-lua").lsp_implementations()
+			end,
+			desc = "LSP Implementations",
+		},
+		{
+			"<leader>lt",
+			function()
+				require("fzf-lua").lsp_typedefs()
+			end,
+			desc = "LSP Type Definitions",
+		},
+		{
+			"<leader>ls",
+			function()
+				require("fzf-lua").lsp_document_symbols()
+			end,
+			desc = "Document Symbols",
+		},
+		{
+			"<leader>lw",
+			function()
+				require("fzf-lua").lsp_workspace_symbols()
+			end,
+			desc = "Workspace Symbols",
+		},
+		{
+			"<leader>lc",
+			function()
+				require("fzf-lua").lsp_incoming_calls()
+			end,
+			desc = "Incoming Calls",
+		},
+		{
+			"<leader>lo",
+			function()
+				require("fzf-lua").lsp_outgoing_calls()
+			end,
+			desc = "Outgoing Calls",
+		},
+	},
 }

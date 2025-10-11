@@ -1,3 +1,8 @@
+local lspCaps = vim.lsp.protocol.make_client_capabilities()
+lspCaps.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 -- Enable all language servers
 local servers = {
 	"lua_ls",
@@ -14,8 +19,12 @@ local servers = {
 }
 
 for _, server in ipairs(servers) do
-	vim.lsp.enable(server)
+	vim.lsp.enable(server, { capabilities = lspCaps })
 end
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+vim.opt.foldlevel = 99 -- Open all folds by default
+vim.opt.foldenable = true
 -- LSP Attach function for keybindings
 local function on_attach(ev)
 	local bufnr = ev.buf
@@ -54,7 +63,7 @@ local function on_attach(ev)
 	end, opts)
 
 	-- Diagnostics
-	vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+	vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, opts)
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
@@ -80,65 +89,16 @@ local function on_attach(ev)
 		vim.lsp.codelens.refresh()
 	end
 end
--- LSP Attach function for keybindings
--- local function on_attach(ev)
--- 	local opts = { buffer = ev.buf, silent = true }
---
--- 	-- Telescope LSP bindings (assumes telescope is available)
--- 	vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
--- 	vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
--- 	vim.keymap.set("n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
--- 	vim.keymap.set("n", "<leader>D", "<cmd>Telescope lsp_type_definitions<CR>", opts)
--- 	vim.keymap.set("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<CR>", opts)
--- 	vim.keymap.set("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", opts)
---
--- 	-- Built-in LSP functions
--- 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
--- 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
--- 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
--- 	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
--- 	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
--- 	vim.keymap.set("n", "<leader>wl", function()
--- 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
--- 	end, opts)
--- 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
--- 	vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
---
--- 	-- Format with conform.nvim if available, fallback to LSP
--- 	vim.keymap.set("n", "<leader>f", function()
--- 		local conform_ok, conform = pcall(require, "conform")
--- 		if conform_ok then
--- 			conform.format({ async = true, lsp_fallback = true })
--- 		else
--- 			vim.lsp.buf.format({ async = true })
--- 		end
--- 	end, opts)
---
--- 	-- Diagnostics
--- 	vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
--- 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
--- 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
--- 	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
---
--- 	-- Inlay hints toggle (if supported)
--- 	if vim.lsp.buf.inlay_hint then
--- 		vim.keymap.set("n", "<leader>th", function()
--- 			vim.lsp.buf.inlay_hint(0, nil)
--- 		end, opts)
--- 	end
---
--- 	-- Set omnifunc for completion
--- 	vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
--- end
-
 -- Configure diagnostics display
 vim.diagnostic.config({
 	virtual_text = false,
 	signs = {
-		[vim.diagnostic.severity.ERROR] = "󰅙", -- nf-md-close_circle
-		[vim.diagnostic.severity.WARN] = "", -- nf-md-alert_circle
-		[vim.diagnostic.severity.INFO] = "󰋼", -- nf-md-information
-		[vim.diagnostic.severity.HINT] = "", -- nf-md-lightbulb_on_outline
+		text = {
+			[vim.diagnostic.severity.ERROR] = "󰅙", -- nf-md-close_circle
+			[vim.diagnostic.severity.WARN] = "", -- nf-md-alert_circle
+			[vim.diagnostic.severity.INFO] = "󰋼", -- nf-md-information
+			[vim.diagnostic.severity.HINT] = "", -- nf-md-lightbulb_on_outline
+		},
 	},
 	underline = true,
 	update_in_insert = false,
