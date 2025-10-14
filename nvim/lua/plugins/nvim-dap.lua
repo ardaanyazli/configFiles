@@ -88,54 +88,42 @@ return {
 	config = function()
 		local dap = require("dap")
 
-		vim.fn.sign_define({
-			{
-				"DapBreakpoint",
-				{
-					text = "", -- Red circle
-					texthl = "DiagnosticError",
-					linehl = "",
-					numhl = "",
-				},
+		local dap_signs = {
+			DapBreakpoint = {
+				text = "",
+				texthl = "DiagnosticError",
+				linehl = "",
+				numhl = "",
 			},
-			{
-				"DapBreakpointCondition",
-				{
-					text = "", -- Question mark for conditional breakpoints
-					texthl = "DiagnosticWarn",
-					linehl = "",
-					numhl = "",
-				},
+			DapBreakpointCondition = {
+				text = "",
+				texthl = "DiagnosticWarn",
+				linehl = "",
+				numhl = "",
 			},
-			{
-				"DapLogPoint",
-				{
-					text = "", -- Info symbol
-					texthl = "DiagnosticInfo",
-					linehl = "",
-					numhl = "",
-				},
+			DapLogPoint = {
+				text = "",
+				texthl = "DiagnosticInfo",
+				linehl = "",
+				numhl = "",
 			},
-			{
-				"DapStopped",
-				{
-					text = "", -- Arrow indicator for current line
-					texthl = "DiagnosticHint",
-					linehl = "Visual",
-					numhl = "",
-				},
+			DapStopped = {
+				text = "",
+				texthl = "DiagnosticHint",
+				linehl = "Visual",
+				numhl = "",
 			},
-			{
-				"DapBreakpointRejected",
-				{
-					text = "", -- Warning triangle for rejected breakpoints
-					texthl = "DiagnosticError",
-					linehl = "",
-					numhl = "",
-				},
+			DapBreakpointRejected = {
+				text = "",
+				texthl = "DiagnosticError",
+				linehl = "",
+				numhl = "",
 			},
-		})
+		}
 
+		for name, opts in pairs(dap_signs) do
+			vim.fn.sign_define(name, opts)
+		end
 		--------------------------------------------------------------------------
 		-- Go Debugging
 		--------------------------------------------------------------------------
