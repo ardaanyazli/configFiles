@@ -11,7 +11,7 @@ return {
 			"cssls",
 			"marksman",
 			"terraformls",
-			"roslyn",
+			-- "roslyn",
 		},
 		automatic_installation = true,
 	},

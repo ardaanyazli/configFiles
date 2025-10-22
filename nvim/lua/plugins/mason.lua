@@ -1,6 +1,10 @@
 return {
 	"williamboman/mason.nvim",
 	opts = {
+		registries = {
+			"github:mason-org/mason-registry",
+			"github:Crashdummyy/mason-registry",
+		},
 		max_concurrent_installers = 10,
 		ui = {
 			icons = {

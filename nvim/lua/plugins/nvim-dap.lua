@@ -1,7 +1,11 @@
 return {
 	"mfussenegger/nvim-dap",
-	lazy = true, -- don’t load until needed
-	ft = { "go", "cs", "typescript", "javascript", "rust", "lua" }, -- only for these filetypes
+	lazy = true,
+	dependencies = {
+		"nvim-neotest/nvim-nio",
+		"theHamsta/nvim-dap-virtual-text",
+		"jay-babu/mason-nvim-dap.nvim",
+	},
 	keys = {
 		{
 			"<F5>",
@@ -11,25 +15,11 @@ return {
 			desc = "Start/Continue Debugging",
 		},
 		{
-			"<S-F5>",
-			function()
-				require("dap").terminate()
-			end,
-			desc = "Terminate Debugging",
-		},
-		{
 			"<F9>",
 			function()
 				require("dap").toggle_breakpoint()
 			end,
 			desc = "Toggle Breakpoint",
-		},
-		{
-			"<leader>dB",
-			function()
-				require("dap").set_breakpoint(vim.fn.input("Condition: "))
-			end,
-			desc = "Conditional Breakpoint",
 		},
 		{
 			"<F10>",
@@ -52,176 +42,112 @@ return {
 			end,
 			desc = "Step Out",
 		},
-		{
-			"<leader>dr",
-			function()
-				require("dap").repl.open()
-			end,
-			desc = "Open REPL",
-		},
-		{
-			"<leader>dl",
-			function()
-				require("dap").run_last()
-			end,
-			desc = "Run Last Configuration",
-		},
 	},
-
-	dependencies = {
-		{
-			"jay-babu/mason-nvim-dap.nvim",
-			cmd = { "DapInstall", "DapUninstall" },
-			config = function()
-				require("mason-nvim-dap").setup({
-					ensure_installed = { "delve", "netcoredbg" },
-					handlers = {
-						function(config)
-							require("mason-nvim-dap").default_setup(config)
-						end,
-					},
-				})
-			end,
-		},
-	},
-
 	config = function()
 		local dap = require("dap")
-
-		local dap_signs = {
-			DapBreakpoint = {
-				text = "",
-				texthl = "DiagnosticError",
-				linehl = "",
-				numhl = "",
-			},
-			DapBreakpointCondition = {
-				text = "",
-				texthl = "DiagnosticWarn",
-				linehl = "",
-				numhl = "",
-			},
-			DapLogPoint = {
-				text = "",
-				texthl = "DiagnosticInfo",
-				linehl = "",
-				numhl = "",
-			},
-			DapStopped = {
-				text = "",
-				texthl = "DiagnosticHint",
-				linehl = "Visual",
-				numhl = "",
-			},
-			DapBreakpointRejected = {
-				text = "",
-				texthl = "DiagnosticError",
-				linehl = "",
-				numhl = "",
-			},
-		}
-
-		for name, opts in pairs(dap_signs) do
-			vim.fn.sign_define(name, opts)
-		end
-		--------------------------------------------------------------------------
-		-- Go Debugging
-		--------------------------------------------------------------------------
-		dap.adapters.go = {
-			type = "server",
-			port = "${port}",
-			executable = {
-				command = "dlv",
-				args = { "dap", "-l", "127.0.0.1:${port}" },
-			},
-		}
-
-		dap.configurations.go = {
-			{
-				type = "go",
-				name = "Debug File",
-				request = "launch",
-				program = "${file}",
-			},
-			{
-				type = "go",
-				name = "Debug Package",
-				request = "launch",
-				program = "${workspaceFolder}",
-			},
-			{
-				type = "go",
-				name = "Attach",
-				mode = "local",
-				request = "attach",
-				processId = require("dap.utils").pick_process,
-			},
-		}
-
-		--------------------------------------------------------------------------
-		-- .NET Debugging
-		--------------------------------------------------------------------------
-		dap.adapters.coreclr = {
+		vim.fn.sign_define("DapBreakpoint", {
+			text = "", -- Red circle
+			texthl = "DiagnosticError",
+			linehl = "",
+			numhl = "",
+		})
+		vim.fn.sign_define("DapBreakpointCondition", {
+			text = "", -- Question mark for conditional breakpoints
+			texthl = "DiagnosticWarn",
+			linehl = "",
+			numhl = "",
+		})
+		vim.fn.sign_define("DapLogPoint", {
+			text = "", -- Info symbol
+			texthl = "DiagnosticInfo",
+			linehl = "",
+			numhl = "",
+		})
+		vim.fn.sign_define("DapStopped", {
+			text = "", -- Arrow indicator for current line
+			texthl = "DiagnosticHint",
+			linehl = "Visual",
+			numhl = "",
+		})
+		vim.fn.sign_define("DapBreakpointRejected", {
+			text = "", -- Warning triangle for rejected breakpoints
+			texthl = "DiagnosticError",
+			linehl = "",
+			numhl = "",
+		})
+		-- Setup virtual text
+		require("nvim-dap-virtual-text").setup({
+			enabled = true,
+			enabled_commands = true,
+			highlight_changed_variables = true,
+			highlight_new_as_changed = false,
+			show_stop_reason = true,
+			commented = false,
+			only_first_definition = true,
+			all_references = false,
+			clear_on_continue = false,
+			display_callback = function(variable, buf, stackframe, node, options)
+				if options.virt_text_pos == "inline" then
+					return " = " .. variable.value
+				else
+					return variable.name .. " = " .. variable.value
+				end
+			end,
+			virt_text_pos = vim.fn.has("nvim-0.10") == 1 and "inline" or "eol",
+			all_frames = false,
+			virt_lines = false,
+			virt_text_win_col = nil,
+		})
+		local netcoredbg_adapter = {
 			type = "executable",
-			command = "netcoredbg",
+			command = mason_path,
 			args = { "--interpreter=vscode" },
 		}
+		-- Configure netcoredbg adapter for .NET debugging
+		dap.adapters.coreclr = netcoredbg_adapter;
+		-- C# DAP configurations
 
 		dap.configurations.cs = {
 			{
 				type = "coreclr",
-				name = "Launch .NET App",
+				name = "launch - netcoredbg",
 				request = "launch",
 				program = function()
-					return vim.fn.input("Path to DLL: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
+					-- return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/src/", "file")
+					return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/net9.0/", "file")
+				end,
+
+				-- justMyCode = false,
+				-- stopAtEntry = false,
+				-- -- program = function()
+				-- --   -- todo: request input from ui
+				-- --   return "/path/to/your.dll"
+				-- -- end,
+				-- env = {
+				--   ASPNETCORE_ENVIRONMENT = function()
+				--     -- todo: request input from ui
+				--     return "Development"
+				--   end,
+				--   ASPNETCORE_URLS = function()
+				--     -- todo: request input from ui
+				--     return "http://localhost:5050"
+				--   end,
+				-- },
+				-- cwd = function()
+				--   -- todo: request input from ui
+				--   return vim.fn.getcwd()
+				-- end,
+			}
+		}
+
+		-- Setup Mason DAP for automatic installation
+		require("mason-nvim-dap").setup({
+			ensure_installed = { "netcoredbg" },
+			handlers = {
+				function(config)
+					require("mason-nvim-dap").default_setup(config)
 				end,
 			},
-			{
-				type = "coreclr",
-				name = "Attach to Process",
-				request = "attach",
-				processId = require("dap.utils").pick_process,
-			},
-		}
-
-		--------------------------------------------------------------------------
-		-- Extensible placeholders for other languages
-		--------------------------------------------------------------------------
-		dap.adapters.node2 = {
-			type = "executable",
-			command = "node",
-			args = { vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js" },
-		}
-
-		dap.configurations.typescript = {
-			{
-				name = "Launch TS file",
-				type = "node2",
-				request = "launch",
-				program = "${file}",
-				cwd = vim.fn.getcwd(),
-				sourceMaps = true,
-				protocol = "inspector",
-				console = "integratedTerminal",
-			},
-		}
-
-		dap.adapters.lldb = {
-			type = "executable",
-			command = "lldb-vscode",
-			name = "lldb",
-		}
-
-		dap.configurations.rust = {
-			{
-				name = "Launch Rust Binary",
-				type = "lldb",
-				request = "launch",
-				program = function()
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
-				end,
-				cwd = "${workspaceFolder}",
-			},
-		}
+		})
 	end,
 }
