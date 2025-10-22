@@ -1,4 +1,8 @@
 return {
+	{
+		'ramboe/ramboe-dotnet-utils',
+		dependencies = { 'mfussenegger/nvim-dap' }
+	}, {
 	"mfussenegger/nvim-dap",
 	lazy = true,
 	dependencies = {
@@ -103,51 +107,28 @@ return {
 			command = mason_path,
 			args = { "--interpreter=vscode" },
 		}
-		-- Configure netcoredbg adapter for .NET debugging
-		dap.adapters.coreclr = netcoredbg_adapter;
-		-- C# DAP configurations
+
+		dap.adapters.netcoredbg = netcoredbg_adapter -- needed for normal debugging
+		dap.adapters.coreclr = netcoredbg_adapter -- needed for unit test debugging
 
 		dap.configurations.cs = {
 			{
 				type = "coreclr",
-				name = "launch - netcoredbg",
+				name = "LAUNCH directly from nvim",
 				request = "launch",
 				program = function()
-					-- return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/src/", "file")
-					return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/net9.0/", "file")
-				end,
-
-				-- justMyCode = false,
-				-- stopAtEntry = false,
-				-- -- program = function()
-				-- --   -- todo: request input from ui
-				-- --   return "/path/to/your.dll"
-				-- -- end,
-				-- env = {
-				--   ASPNETCORE_ENVIRONMENT = function()
-				--     -- todo: request input from ui
-				--     return "Development"
-				--   end,
-				--   ASPNETCORE_URLS = function()
-				--     -- todo: request input from ui
-				--     return "http://localhost:5050"
-				--   end,
-				-- },
-				-- cwd = function()
-				--   -- todo: request input from ui
-				--   return vim.fn.getcwd()
-				-- end,
-			}
-		}
-
-		-- Setup Mason DAP for automatic installation
-		require("mason-nvim-dap").setup({
-			ensure_installed = { "netcoredbg" },
-			handlers = {
-				function(config)
-					require("mason-nvim-dap").default_setup(config)
-				end,
+					return require("dap-dll-autopicker").build_dll_path()
+				end
 			},
-		})
+			-- {
+			--   type = "coreclr",
+			--   name = "ATTACH to running app in dedicated terminal",
+			--   request = "attach",
+			--   processId = function()
+			--     return require("dap.utils").pick_process()
+			--   end,
+			-- }
+		}
 	end,
+}
 }
