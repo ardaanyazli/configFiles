@@ -1,5 +1,5 @@
 return {
-	dir = "~/lg-float.nvim",
+	"ardaanyazli/lg-float.nvim",
 	keys = { {
 		"<leader>lg",
 		"<cmd>Lgfloat<CR>",
