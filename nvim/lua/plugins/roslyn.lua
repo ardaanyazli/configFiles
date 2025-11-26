@@ -2,6 +2,7 @@ return {
 	"seblj/roslyn.nvim",
 	ft = "cs",
 	opts = {
+		fielWatching = 'roslyn',
 		config = {
 			settings = {
 				["csharp|inlay_hints"] = {

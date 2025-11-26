@@ -6,21 +6,22 @@ lspCaps.textDocument.foldingRange = {
 -- Enable all language servers
 local servers = {
 	"lua_ls",
-	"gopls",
-	"pyright",
-	"rust_analyzer",
-	"ts_ls",
-	"html",
-	"cssls",
-	"marksman",
-	"terraformls",
-	--"omnisharp",
+	-- "gopls",
+	-- "pyright",
+	-- "rust_analyzer",
+	-- "ts_ls",
+	-- "html",
+	-- "cssls",
+	-- "marksman",
+	-- "terraformls",
+	-- "roslyn_ls", --will check with native lsp
 	"roslyn",
 }
 
 for _, server in ipairs(servers) do
 	vim.lsp.enable(server, { capabilities = lspCaps })
 end
+vim.lsp.inlay_hint.enable();
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
 vim.opt.foldlevel = 99 -- Open all folds by default
@@ -69,11 +70,11 @@ local function on_attach(ev)
 	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 
 	-- Inlay hints toggle
-	if vim.lsp.buf.inlay_hint then
-		vim.keymap.set("n", "<leader>th", function()
-			vim.lsp.buf.inlay_hint(bufnr, nil)
-		end, opts)
-	end
+	-- if vim.lsp.buf.inlay_hint then
+	-- 	vim.keymap.set("n", "<leader>th", function()
+	-- 		vim.lsp.buf.inlay_hint(bufnr, nil)
+	-- 	end, opts)
+	-- end
 
 	-- Set omnifunc for completion
 	vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
