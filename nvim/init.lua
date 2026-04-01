@@ -1,6 +1,6 @@
 require("config.options")
 require("config.floating-terminal")
 require("config.statusline")
-require("config.lsp")
+-- require("config.lsp")
 require("config.pack")
 -- require("config.lazy")

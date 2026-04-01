@@ -21,19 +21,27 @@ vim.pack.add({
 	},
 	"https://github.com/L3MON4D3/LuaSnip",
 })
-local function packadd(name)
-	vim.cmd("packadd " .. name)
-end
-packadd("nvim-treesitter")
-packadd("gitsigns.nvim")
-packadd("mini.nvim")
-packadd("fzf-lua")
-packadd("nvim-tree.lua")
--- LSP
-packadd("nvim-lspconfig")
-packadd("mason.nvim")
--- packadd("efmls-configs-nvim")
-packadd("blink.cmp")
-packadd("LuaSnip")
+-- local function packadd(name)
+-- 	vim.cmd("packadd " .. name)
+-- end
+-- packadd("nvim-treesitter")
+-- packadd("gitsigns.nvim")
+-- packadd("mini.nvim")
+-- packadd("fzf-lua")
+-- packadd("nvim-tree.lua")
+-- -- LSP
+-- packadd("nvim-lspconfig")
+-- packadd("mason.nvim")
+-- -- packadd("efmls-configs-nvim")
+-- packadd("blink.cmp")
+-- packadd("LuaSnip")
 
-require("plugins");
+local plugin_dir = vim.fn.stdpath("config") .. "/lua/plugins"
+local files = vim.fn.readdir(plugin_dir)
+
+for _, file in ipairs(files) do
+  if file:match("%.lua$") then
+    local module = "plugins." .. file:gsub("%.lua$", "")
+    pcall(require, module)
+  end
+end
