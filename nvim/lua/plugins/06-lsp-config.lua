@@ -1,6 +1,18 @@
 -- ============================================================================
 -- LSP, Linting, Formatting & Completion
 -- ============================================================================
+vim.pack.add({
+	-- Language Server Protocols
+	"https://www.github.com/neovim/nvim-lspconfig",
+	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/creativenull/efmls-configs-nvim",
+	{
+		src = "https://github.com/saghen/blink.cmp",
+		version = vim.version.range("1.*"),
+	},
+	"https://github.com/L3MON4D3/LuaSnip",
+})
+
 local diagnostic_signs = {
 	Error = " ",
 	Warn = " ",
@@ -230,10 +242,10 @@ end
 
 vim.lsp.enable({
 	"lua_ls",
-	"pyright",
+	"rust-analyzer",
 	"bashls",
 	"ts_ls",
-	"gopls",
+	"roslyn",
 	"clangd",
 	"efm",
 })

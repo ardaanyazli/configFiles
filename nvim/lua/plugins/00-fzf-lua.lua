@@ -1,10 +1,17 @@
-require("fzf-lua").setup({
+vim.pack.add({ "https://github.com/ibhagwan/fzf-lua" })
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    vim.cmd("packadd fzf-lua")
+    require("fzf-lua").setup({
 	winopts = {
 		border = "rounded",
 		preview = {
 			default = "builtin",
 		},
 	},
+	})
+  end,
 })
 
 local fzf = require("fzf-lua")

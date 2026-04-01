@@ -1,3 +1,4 @@
+vim.pack.add( {{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main", build = ":TSUpdate" }})
 local setup_treesitter = function()
 	local treesitter = require("nvim-treesitter")
 	treesitter.setup({})

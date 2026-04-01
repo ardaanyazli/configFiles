@@ -1,3 +1,9 @@
+vim.pack.add({
+	"https://www.github.com/lewis6991/gitsigns.nvim",})
+vim.api.nvim_create_autocmd("BufReadPre", {
+  once = true,
+  callback = function()
+    vim.cmd("packadd gitsigns.nvim")
 require("gitsigns").setup({
 	signs = {
 		add = { text = "\u{2590}" },    -- ▏
@@ -9,6 +15,8 @@ require("gitsigns").setup({
 	},
 	signcolumn = true,
 	current_line_blame = false,
+})
+  end,
 })
 vim.keymap.set("n", "]h", function()
 	require("gitsigns").next_hunk()

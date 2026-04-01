@@ -1,4 +1,4 @@
-retur {
+return {
 	settings = {
 		Lua = {
 			-- runtime = {
