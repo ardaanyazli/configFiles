@@ -11,6 +11,7 @@ vim.pack.add({
 		version = vim.version.range("1.*"),
 	},
 	"https://github.com/L3MON4D3/LuaSnip",
+  "https://github.com/seblyng/roslyn.nvim",
 })
 
 local diagnostic_signs = {
@@ -168,11 +169,45 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.config("pyright", {})
-vim.lsp.config("bashls", {})
-vim.lsp.config("ts_ls", {})
-vim.lsp.config("gopls", {})
-vim.lsp.config("clangd", {})
+require("roslyn").setup({
+    config = {
+        -- Inherited from vim.lsp.config["*"], but you can override here
+        capabilities = require("blink.cmp").get_lsp_capabilities(),
+        on_attach = function(client, bufnr)
+            -- roslyn fires its own attach, so manually call your handler
+            lsp_on_attach({ data = { client_id = client.id }, buf = bufnr })
+        end,
+        settings = {
+            ["csharp|inlay_hints"] = {
+                csharp_enable_inlay_hints_for_implicit_object_creation = true,
+                csharp_enable_inlay_hints_for_implicit_variable_types = true,
+                csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+                csharp_enable_inlay_hints_for_types = true,
+                dotnet_enable_inlay_hints_for_indexer_parameters = true,
+                dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+                dotnet_enable_inlay_hints_for_other_parameters = true,
+                dotnet_enable_inlay_hints_for_parameters = true,
+                dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+                dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+                dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+            },
+            ["csharp|code_lens"] = {
+                dotnet_enable_references_code_lens = true,
+            },
+        },
+    },
+    -- Pick the SDK to use. Roslyn requires .NET 8+
+    -- If nil, it auto-detects from your PATH
+    dotnet_cmd = "dotnet",
+    roslyn_version = "latest",
+    broad_search = false,   -- search parent dirs for .sln
+    lock_target = false,    -- don't lock to one .sln if multiple exist
+})
+-- vim.lsp.config("pyright", {})
+-- vim.lsp.config("bashls", {})
+-- vim.lsp.config("ts_ls", {})
+-- vim.lsp.config("gopls", {})
+-- vim.lsp.config("clangd", {})
 
 do
 	local luacheck = require("efmls-configs.linters.luacheck")
@@ -245,7 +280,8 @@ vim.lsp.enable({
 	"rust-analyzer",
 	"bashls",
 	"ts_ls",
-	"roslyn",
+	-- "roslyn",
 	"clangd",
 	"efm",
 })
+
