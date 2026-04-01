@@ -3,6 +3,9 @@
 -- ============================================================================
 
 -- Git branch function with caching and Nerd Font icon
+
+local M={}
+function M.setup()
 local cached_branch = ""
 local last_check = 0
 local function git_branch()
@@ -144,3 +147,4 @@ local function setup_dynamic_statusline()
 end
 
 setup_dynamic_statusline()
+end
