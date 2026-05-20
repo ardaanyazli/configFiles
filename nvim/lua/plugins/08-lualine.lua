@@ -1,5 +1,4 @@
 vim.pack.add({
-	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/nvim-lualine/lualine.nvim",
 })
 
@@ -91,55 +90,68 @@ ins_left({
 	padding = { left = 0, right = 1 }, -- We don't need space before this
 })
 
+-- ins_left({
+-- 	-- mode component
+-- 	function()
+-- 		return ""
+-- 	end,
+-- 	color = function()
+-- 		-- auto change color according to neovims mode
+-- 		local mode_color = {
+-- 			n = colors.red,
+-- 			i = colors.green,
+-- 			v = colors.blue,
+-- 			[""] = colors.blue,
+-- 			V = colors.blue,
+-- 			c = colors.magenta,
+-- 			no = colors.red,
+-- 			s = colors.orange,
+-- 			S = colors.orange,
+-- 			[""] = colors.orange,
+-- 			ic = colors.yellow,
+-- 			R = colors.violet,
+-- 			Rv = colors.violet,
+-- 			cv = colors.red,
+-- 			ce = colors.red,
+-- 			r = colors.cyan,
+-- 			rm = colors.cyan,
+-- 			["r?"] = colors.cyan,
+-- 			["!"] = colors.red,
+-- 			t = colors.red,
+-- 		}
+-- 		return { fg = mode_color[vim.fn.mode()] }
+-- 	end,
+-- 	padding = { right = 1 },
+-- })
 ins_left({
-	-- mode component
-	function()
-		return ""
-	end,
-	color = function()
-		-- auto change color according to neovims mode
-		local mode_color = {
-			n = colors.red,
-			i = colors.green,
-			v = colors.blue,
-			[""] = colors.blue,
-			V = colors.blue,
-			c = colors.magenta,
-			no = colors.red,
-			s = colors.orange,
-			S = colors.orange,
-			[""] = colors.orange,
-			ic = colors.yellow,
-			R = colors.violet,
-			Rv = colors.violet,
-			cv = colors.red,
-			ce = colors.red,
-			r = colors.cyan,
-			rm = colors.cyan,
-			["r?"] = colors.cyan,
-			["!"] = colors.red,
-			t = colors.red,
-		}
-		return { fg = mode_color[vim.fn.mode()] }
-	end,
-	padding = { right = 1 },
+	"branch",
+	icon = "",
+	color = { fg = colors.violet, gui = "bold" },
 })
 
 ins_left({
-	-- filesize component
-	"filesize",
-	cond = conditions.buffer_not_empty,
+	"diff",
+	-- Is it me or the symbol for modified us really weird
+	symbols = { added = " ", modified = "󰝤 ", removed = " " },
+	diff_color = {
+		added = { fg = colors.green },
+		modified = { fg = colors.orange },
+		removed = { fg = colors.red },
+	},
+	cond = conditions.hide_in_width,
 })
+
+-- ins_left({
+-- 	-- filesize component
+-- 	"filesize",
+-- 	cond = conditions.buffer_not_empty,
+-- })
 
 ins_left({
 	"filename",
 	cond = conditions.buffer_not_empty,
 	color = { fg = colors.magenta, gui = "bold" },
 })
-
-ins_left({ "location" })
-
-ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
 
 ins_left({
 	"diagnostics",
@@ -154,13 +166,13 @@ ins_left({
 
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
-ins_left({
-	function()
-		return "%="
-	end,
-})
+-- ins_left({
+-- 	function()
+-- 		return "%="
+-- 	end,
+-- })
 
-ins_left({
+ins_right({
 	-- Lsp server name .
 	function()
 		local msg = "No Active Lsp"
@@ -181,6 +193,10 @@ ins_left({
 	color = { fg = "#ffffff", gui = "bold" },
 })
 
+ins_right({ "location" })
+
+ins_right({ "progress", color = { fg = colors.fg, gui = "bold" } })
+
 -- Add components to right sections
 ins_right({
 	"o:encoding", -- option component same as &encoding in viml
@@ -194,24 +210,6 @@ ins_right({
 	fmt = string.upper,
 	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
 	color = { fg = colors.green, gui = "bold" },
-})
-
-ins_right({
-	"branch",
-	icon = "",
-	color = { fg = colors.violet, gui = "bold" },
-})
-
-ins_right({
-	"diff",
-	-- Is it me or the symbol for modified us really weird
-	symbols = { added = " ", modified = "󰝤 ", removed = " " },
-	diff_color = {
-		added = { fg = colors.green },
-		modified = { fg = colors.orange },
-		removed = { fg = colors.red },
-	},
-	cond = conditions.hide_in_width,
 })
 
 ins_right({
