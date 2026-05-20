@@ -1,20 +1,19 @@
-
 vim.pack.add({ "https://www.github.com/nvim-tree/nvim-tree.lua" })
 
 vim.api.nvim_create_autocmd("VimEnter", {
-  once = true,
-  callback = function()
-    vim.cmd("packadd nvim-tree")
-require("nvim-tree").setup({ view = { width = 35,
-	},
-	filters = {
-		dotfiles = false,
-	},
-	renderer = {
-		group_empty = true,
-	},
-})
-  end,
+	once = true,
+	callback = function()
+		vim.cmd("packadd nvim-tree")
+		require("nvim-tree").setup({
+			view = { width = 35 },
+			filters = {
+				dotfiles = false,
+			},
+			renderer = {
+				group_empty = true,
+			},
+		})
+	end,
 })
 
 vim.keymap.set("n", "<leader>ee", function()
