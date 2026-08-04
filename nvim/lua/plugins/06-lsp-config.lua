@@ -14,7 +14,7 @@ vim.pack.add({
 })
 local tools = {
 	-- "roslyn",
-	"rust-analyzer",
+	"rust_analyzer",
 	"typescript-language-server",
 	"lua-language-server",
 	"csharpier",
@@ -224,7 +224,7 @@ vim.lsp.config("*", { capabilities = capability_list })
 
 vim.lsp.enable({
 	"lua_ls",
-	"rust-analyzer",
+	"rust_analyzer",
 	"bashls",
 	"ts_ls",
 	"roslyn_ls",
